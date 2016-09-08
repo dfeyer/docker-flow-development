@@ -7,9 +7,6 @@ volumes:
 services:
   webserver:
     image: "nginx:1.11"
-    ports:
-      - "80${PORTSUFFIX}:80"
-      - "84${PORTSUFFIX}:443"
     links:
       - "php"
     volumes:
