@@ -3,6 +3,8 @@ version: "2"
 volumes:
   mysqlData:
     driver: local
+  elasticsearchData:
+    driver: local
 
 services:
   webserver:
@@ -16,9 +18,9 @@ services:
     env_file:
       - "./.env"
       - "./../app/Build/Environment/.env"
+
   php:
     build: "./Docker/php"
-    command: "php-fpm7.0 -F"
     expose:
       - "9000"
     volumes:
@@ -30,8 +32,11 @@ services:
       - "./../app/Build/Environment/.env"
     links:
       - "db"
+      - "elasticsearch"
+      - "redis"
+
   db:
-    image: "mariadb"
+    image: "mariadb:10.0"
     env_file:
       - "./.env"
       - "./../app/Build/Environment/.env"
@@ -41,3 +46,16 @@ services:
       - "./Files/mariadb.cnf:/etc/mysql/conf.d/mariadb.cnf"
     ports:
       - "33${PORTSUFFIX}:3306"
+
+  elasticsearch:
+    image: "elasticsearch:2.3"
+    env_file:
+      - "./.env"
+      - "./../app/Build/Environment/.env"
+    volumes:
+      - "elasticsearchData:/usr/share/elasticsearch/data"
+      - "./Files/elasticsearch/java.policy:/home/elasticsearch/.java.policy"
+      - "./Files/elasticsearch/elasticsearch-2.3.yml:/usr/share/elasticsearch/config/elasticsearch.yml"
+
+  redis:
+    image: "redis:3.0"
