@@ -12,24 +12,22 @@ services:
     links:
       - "php"
     volumes:
-      - "./Files/nginx.conf:/etc/nginx/nginx.conf"
-      - "./../app/:/var/www/"
-      - "./../logs/webserver/:/var/log/nginx/"
+      - "../Environment/Files/nginx.conf:/etc/nginx/nginx.conf"
+      - ".:/var/www/"
+      - "../Volumes/${PROJECT_NAME}/logs/webserver/:/var/log/nginx/"
     env_file:
-      - "./.env"
-      - "./../app/Build/Environment/.env"
+      - "./Build/Environment/.env"
 
   php:
-    build: "./Docker/php"
+    build: "../Environment/Docker/php"
     expose:
       - "9000"
     volumes:
-      - "./Files/php-fpm-pool.conf:/etc/php/7.0/fpm/pool.d/www.conf"
-      - "./../app/:/var/www/"
+      - "../Environment/Files/php-fpm-pool.conf:/etc/php/7.0/fpm/pool.d/www.conf"
+      - ".:/var/www/"
     working_dir: "/var/www/"
     env_file:
-      - "./.env"
-      - "./../app/Build/Environment/.env"
+      - "./Build/Environment/.env"
     links:
       - "db"
       - "elasticsearch"
@@ -38,24 +36,20 @@ services:
   db:
     image: "mariadb:10.0"
     env_file:
-      - "./.env"
-      - "./../app/Build/Environment/.env"
+      - "./Build/Environment/.env"
     volumes:
       - "mysqlData:/var/lib/mysql"
-      - "./../logs/db/:/var/log/mysql/"
-      - "./Files/mariadb.cnf:/etc/mysql/conf.d/mariadb.cnf"
-    ports:
-      - "33${PORTSUFFIX}:3306"
+      - "../Volumes/${PROJECT_NAME}/logs/db/:/var/log/mysql/"
+      - "../Environment/Files/mariadb.cnf:/etc/mysql/conf.d/mariadb.cnf"
 
   elasticsearch:
     image: "elasticsearch:2.3"
     env_file:
-      - "./.env"
-      - "./../app/Build/Environment/.env"
+      - "./Build/Environment/.env"
     volumes:
       - "elasticsearchData:/usr/share/elasticsearch/data"
-      - "./Files/elasticsearch/java.policy:/home/elasticsearch/.java.policy"
-      - "./Files/elasticsearch/elasticsearch-2.3.yml:/usr/share/elasticsearch/config/elasticsearch.yml"
+      - "../Environment/Files/elasticsearch/java.policy:/home/elasticsearch/.java.policy"
+      - "../Environment/Files/elasticsearch/elasticsearch-2.3.yml:/usr/share/elasticsearch/config/elasticsearch.yml"
 
   redis:
     image: "redis:3.0"

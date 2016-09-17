@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-Environment/bin/stop-environment.sh
+Environment/bin/stop-environment.sh $1

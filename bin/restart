@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+Environment/bin/restart-environment.sh $1

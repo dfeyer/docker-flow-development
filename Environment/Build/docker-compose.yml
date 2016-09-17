@@ -6,15 +6,16 @@ services:
     working_dir: "/app/"
     entrypoint: "/root/run-npm.sh"
     volumes:
-      - "./../Files/run-npm.sh:/root/run-npm.sh"
-      - "./../../app/:/app/"
+      - "../../Environment/Files/run-npm.sh:/root/run-npm.sh"
+      - "../../:/app/"
       - "~/.gitconfig:/root/.gitconfig"
   composer:
     image: "composer/composer:latest"
     working_dir: "/app/"
     volumes:
-      - "./../../app/:/app/"
+      - "../../:/app/"
+      - "~/.ssh:/root/.ssh"
+      - "~/.composer/cache:/composer/cache"
       - "~/.composer/auth.json:/composer/auth.json"
     env_file:
-      - "./../.env"
-      - "./../../app/Build/Environment/.env"
+      - "../Environment/.env"

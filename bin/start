@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-Environment/bin/start-environment.sh
+Environment/bin/start-environment.sh $1
