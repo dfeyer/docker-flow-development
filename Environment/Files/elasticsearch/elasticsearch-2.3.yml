@@ -1,0 +1,11 @@
+network.host: 0.0.0.0
+
+# The following settings are absolutely required for the CR adaptor to work
+script.engine.groovy.inline.update: true
+
+# the following settings secure your cluster
+cluster.name: [PUT_YOUR_CUSTOM_NAME_HERE]
+
+# the following settings are well-suited for smaller Elasticsearch instances (e.g. as long as you can stay on one host)
+index.number_of_shards: 1
+index.number_of_replicas: 0
