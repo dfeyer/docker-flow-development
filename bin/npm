@@ -1,2 +1,0 @@
-#!/usr/bin/env bash
-Environment/bin/npm.sh $@
