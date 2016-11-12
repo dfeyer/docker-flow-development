@@ -1,21 +1,17 @@
 version: "2"
 
 services:
-  npm:
-    image: "simplyadmire/npm"
-    working_dir: "/app/"
-    entrypoint: "/root/run-npm.sh"
-    volumes:
-      - "../../Environment/Files/run-npm.sh:/root/run-npm.sh"
-      - "../../:/app/"
-      - "~/.gitconfig:/root/.gitconfig"
   composer:
     image: "composer/composer:latest"
     working_dir: "/app/"
     volumes:
       - "../../:/app/"
-      - "~/.ssh:/root/.ssh"
       - "~/.composer/cache:/composer/cache"
       - "~/.composer/auth.json:/composer/auth.json"
+      - "~/.ssh/known_hosts:/root/.ssh/known_hosts"
+    volumes_from:
+      - "container:ssh-agent"
+    environment:
+      - "SSH_AUTH_SOCK=/ssh/auth/sock"
     env_file:
       - "../Environment/.env"
